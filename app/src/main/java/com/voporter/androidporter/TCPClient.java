@@ -12,6 +12,11 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 
+/*
+    TCP Client Class responsible for the connection of Android controller and PC that runs the game
+
+ */
+
 public class TCPClient implements Serializable{
     private String serverMessage;
     public String dstAddress;
@@ -33,6 +38,7 @@ public class TCPClient implements Serializable{
 
     public void sendMessage(JSONObject jsonObject){
         if(out != null && !out.checkError()){
+            //Log.e("TCPClient Send", "Send is working");
             out.println(jsonObject);
             out.flush();
         }
@@ -42,7 +48,7 @@ public class TCPClient implements Serializable{
         mRun = false;
     }
 
-    public void run(){
+    public void run() throws IOException {
         mRun = true;
 
         try{
@@ -74,13 +80,18 @@ public class TCPClient implements Serializable{
             }catch (Exception e){
                 // TODO: make useful/nicer/better
                 Log.e("TCP", "S: ERROR", e);
+                throw e;
             }finally {
                 socket.close();
             }
         }catch (Exception e){
             // TODO: make useful/nicer/better
             Log.e("TCP", "C: ERROR", e);
+            throw e;
+            //return false;
+
         }
+        //return true;
     }
 
     public interface OnMessageReceived{
