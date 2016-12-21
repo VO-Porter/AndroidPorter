@@ -13,5 +13,51 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="IP Address:"
+        android:id="@+id/addressTextView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="192.168.0."
+        android:ems="10"
+        android:layout_below="@+id/addressTextView"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/addressEditText" />
+
+    <TextView
+        android:text="Port:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addressEditText"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/portTextView" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="8888"
+        android:ems="10"
+        android:layout_below="@+id/portTextView"
+        android:layout_alignStart="@+id/addressEditText"
+        android:id="@+id/portEditText" />
+
+    <Button
+        android:text="Connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/portEditText"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/connectButton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/connectButton"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/messageTextView" />
 </RelativeLayout>
