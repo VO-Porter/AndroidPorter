@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView response, message;
+    TextView message;
     EditText editTextAddress, editTextPort;
-    Button buttonConnect, buttonTest;
+    Button buttonConnect;
     Intent myIntent;
     boolean errorHappened;
 

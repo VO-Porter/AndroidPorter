@@ -1,25 +1,19 @@
 package com.voporter.androidporter;
 
-/**
- * Created by Lovro on 22.12.2016..
- */
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
 
 import android.util.Log;
 
-public class UDPClient extends AsyncTask<Void, Void, Void> {
-    String dstAddress;
-    int dstPort;
-    String response = "";
-    JSONObject jsonObject;
+class UDPClient extends AsyncTask<Void, Void, Void> {
+    private String dstAddress;
+    private int dstPort;
+    private JSONObject jsonObject;
 
     UDPClient(String addr, int port){
         dstAddress = addr;
@@ -43,25 +37,17 @@ public class UDPClient extends AsyncTask<Void, Void, Void> {
 
 
 
-        } catch (UnknownHostException e){
-            //
-            e.printStackTrace();
-            response = "UnknownHostException: "+e.toString();
         } catch (IOException e){
-            //
             e.printStackTrace();
-            response = "IOException: " + e.toString();
         } finally {
             if(sendSocket != null){
                 try{
                     sendSocket.close();
-                }catch (Exception e){
-                    //
+                } catch (Exception e){
                     e.printStackTrace();
                 }
             }
         }
-
 
         return  null;
     }
@@ -72,7 +58,7 @@ public class UDPClient extends AsyncTask<Void, Void, Void> {
     }
 
     // TODO: Test this method
-    public void SetData(JSONObject new_jsonObject){
+    void SetData(JSONObject new_jsonObject){
         jsonObject = new_jsonObject;
     }
 }
