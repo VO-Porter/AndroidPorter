@@ -4,20 +4,25 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
+
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
 
 import android.util.Log;
 
-class UDPClient extends AsyncTask<Void, Void, Void> {
+class UDPClientTask extends AsyncTask<Void, Void, Void> {
+
     private String dstAddress;
     private int dstPort;
     private JSONObject jsonObject;
+    private DatagramSocket socket;
 
-    UDPClient(String addr, int port){
+    UDPClientTask(String addr, int port, DatagramSocket socket){
         dstAddress = addr;
         dstPort = port;
+        this.socket = socket;
     }
 
     @Override
@@ -25,28 +30,21 @@ class UDPClient extends AsyncTask<Void, Void, Void> {
 
         Log.d("DEBUG", jsonObject.toString());
 
-        DatagramSocket sendSocket = null;
-        try{
-            sendSocket = new DatagramSocket();
-
+        try {
+            socket = new DatagramSocket();
             DatagramPacket dp = new DatagramPacket(jsonObject.toString().getBytes() , jsonObject.toString().getBytes().length, InetAddress.getByName(dstAddress), dstPort);
-
-
-
-            sendSocket.send(dp);
-
-
-
+            socket.send(dp);
         } catch (IOException e){
             e.printStackTrace();
-        } finally {
-            if(sendSocket != null){
+        /*} finally {
+            if (sendSocket != null){
                 try{
                     sendSocket.close();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
             }
+        */
         }
 
         return  null;
