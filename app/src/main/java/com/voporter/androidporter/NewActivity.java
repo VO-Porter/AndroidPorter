@@ -9,13 +9,13 @@ import org.json.JSONObject;
 
 /*
     THIS IS A TEST ACTIVITY
-    This activity shows how to get the TCPClient created on MainActivity
-    as well as tests the send functions of that TCPClient
+    This activity shows how to get the UDPClientWrapper created on MainActivity
+    as well as tests the send functions of that UDPClientWrapper
  */
 
 public class NewActivity extends AppCompatActivity {
 
-    TCPClient myTCPClient;
+    UDPClientWrapper myUDPClientWrapper;
     Button buttonJump, buttonTestXY;
 
     @Override
@@ -23,8 +23,8 @@ public class NewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new);
 
-        myTCPClient = TCPClientHolder.getInstance().getMyTCPClient();
 
+        myUDPClientWrapper = UDPClientHolder.getInstance().getMyUDPClientWrapper();
 
         buttonJump = (Button) findViewById(R.id.button);
         buttonTestXY = (Button) findViewById(R.id.button2);
@@ -33,35 +33,18 @@ public class NewActivity extends AppCompatActivity {
         buttonJump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("jump", "1");
-                    myTCPClient.sendMessage(jsonObject);
 
-                }catch (Exception e){
-                    // TODO:
-                }
+                myUDPClientWrapper.SendJump();
 
-                //clientWrapper.SendJump();
-                //clientWrapper.SendXY(0.5, 0.8);
             }
         });
 
         buttonTestXY.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("x", "1");
-                    jsonObject.put("y", "-1");
-                    myTCPClient.sendMessage(jsonObject);
 
-                }catch (Exception e){
-                    // TODO:
-                }
+                myUDPClientWrapper.SendXY(-1.5, 2.65);
 
-                //clientWrapper.SendJump();
-                //clientWrapper.SendXY(0.5, 0.8);
             }
         });
 
