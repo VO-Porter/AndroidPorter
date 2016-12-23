@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
                 UDPClientHolder.getInstance().setMyUDPClient(clientWrapper);
 
-                myIntent = new Intent(getApplicationContext(), NewActivity.class);
+                myIntent = new Intent(getApplicationContext(), GyroActivity.class);
                 startActivity(myIntent);
 
 

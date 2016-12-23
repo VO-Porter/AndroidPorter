@@ -1,8 +1,7 @@
 package com.voporter.androidporter;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 /**
@@ -11,19 +10,18 @@ import android.widget.Button;
  *      as well as tests the send functions of that UDPClientWrapper
  */
 
-public class NewActivity extends AppCompatActivity {
+public class GyroActivity extends Activity {
 
     UDPClientWrapper myUDPClientWrapper;
-    Button buttonJump, buttonTestXY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new);
+        setContentView(R.layout.activity_gyro);
 
 
         myUDPClientWrapper = UDPClientHolder.getInstance().getMyUDPClientWrapper();
-
+/*
         buttonJump = (Button) findViewById(R.id.button);
         buttonTestXY = (Button) findViewById(R.id.button2);
 
@@ -45,6 +43,6 @@ public class NewActivity extends AppCompatActivity {
 
             }
         });
-
+*/
     }
 }
