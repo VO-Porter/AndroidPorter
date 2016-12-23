@@ -33,4 +33,26 @@
         android:layout_alignParentBottom="true"
         android:contentDescription="@string/spaceship" />
 
+    <ImageView
+        android:src="@drawable/spaceship"
+        android:id="@+id/spaceshipLeft"
+        android:layout_width="40dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:contentDescription="@string/spaceship"
+        android:visibility="invisible"
+        />
+
+    <ImageView
+        android:src="@drawable/spaceship"
+        android:id="@+id/spaceshipRight"
+        android:layout_width="40dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:contentDescription="@string/spaceship"
+        android:visibility="invisible"
+        />
+
 </RelativeLayout>

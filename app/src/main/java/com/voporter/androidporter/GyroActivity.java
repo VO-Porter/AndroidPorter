@@ -7,7 +7,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -18,15 +17,16 @@ import android.view.animation.Animation.AnimationListener;
 
 public class GyroActivity extends Activity {
 
+    enum JumpState { INACTIVE, UP, DOWN}
+
     UDPClientWrapper udp;
 
     SensorManager sensorManager;
     Sensor sensor;
 
-    ImageView spaceship;
+    ImageView spaceship, leftPosition, rightPosition;
     Button jump;
 
-    enum JumpState { INACTIVE, UP, DOWN};
     JumpState jumpState = JumpState.INACTIVE;
     AnimationListener jumpListener;
 
@@ -42,6 +42,8 @@ public class GyroActivity extends Activity {
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 
         spaceship = (ImageView) findViewById(R.id.spaceship);
+        leftPosition = (ImageView) findViewById(R.id.spaceshipLeft);
+        rightPosition= (ImageView) findViewById(R.id.spaceshipRight);
         jump = (Button) findViewById(R.id.jumpButton);
 
         final int spaceshipSize = spaceship.getLayoutParams().height;
@@ -65,15 +67,14 @@ public class GyroActivity extends Activity {
         jump.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.d("as",jumpState.toString());
                 if (jumpState == JumpState.INACTIVE) {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         jumpState = JumpState.UP;
-                        ResizeAnimation spaceshipJump = new ResizeAnimation(
+                        JumpAnimation spaceshipJump = new JumpAnimation(
                                 spaceship, spaceshipJumpSize
                         );
                         spaceshipJump.setAnimationListener(jumpListener);
-                        spaceshipJump.setDuration(300);
+                        spaceshipJump.setDuration(500);
                         spaceship.startAnimation(spaceshipJump);
                         jump.setPressed(true);
                         udp.sendJump();
@@ -108,12 +109,17 @@ public class GyroActivity extends Activity {
 
         public void onSensorChanged(SensorEvent event) {
             int x = (int)(event.values[0]*1000);
-            if (x < - 350)
+            if (x < - 350) {
                 udp.sendX(-350);
-            else if (x > 350)
+                spaceship.setX(leftPosition.getX());
+            } else if (x > 350) {
                 udp.sendX(350);
-            else
+                spaceship.setX(rightPosition.getX());
+            } else {
+                float pos = ((x+350)/700.0f)*(rightPosition.getX() - leftPosition.getX());
+                spaceship.setX(pos);
                 udp.sendX(x);
+            }
         }
     };
 
