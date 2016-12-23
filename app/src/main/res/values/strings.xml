@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AndroidPorter</string>
+    <string name="spaceship">spaceship</string>
+    <string name="jump">Jump</string>
 </resources>

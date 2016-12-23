@@ -23,11 +23,10 @@ class UDPClientWrapper {
         }
     }
 
-    void SendXY(double x, double y){
+    void sendX(int x){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("x", Double.valueOf(x));
-            jsonObject.put("y", Double.valueOf(y));
             UDPClientTask client = new UDPClientTask(dstAddress, dstPort, socket);
             client.SetData(jsonObject);
             client.execute();
@@ -36,7 +35,7 @@ class UDPClientWrapper {
         }
     }
 
-    void SendJump(){
+    void sendJump(){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("jump", 1);

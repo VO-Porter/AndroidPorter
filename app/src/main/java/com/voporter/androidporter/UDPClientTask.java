@@ -4,13 +4,10 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
 
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
-
-import android.util.Log;
 
 class UDPClientTask extends AsyncTask<Void, Void, Void> {
 
@@ -27,27 +24,23 @@ class UDPClientTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... arg0){
-
-        Log.d("DEBUG", jsonObject.toString());
-
         try {
             socket = new DatagramSocket();
             DatagramPacket dp = new DatagramPacket(jsonObject.toString().getBytes() , jsonObject.toString().getBytes().length, InetAddress.getByName(dstAddress), dstPort);
             socket.send(dp);
         } catch (IOException e){
             e.printStackTrace();
-        /*} finally {
-            if (sendSocket != null){
-                try{
-                    sendSocket.close();
-                } catch (Exception e){
+        } finally {
+            if (socket != null) {
+                try {
+                    socket.close();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-        */
         }
 
-        return  null;
+        return null;
     }
 
     @Override
@@ -55,7 +48,6 @@ class UDPClientTask extends AsyncTask<Void, Void, Void> {
         super.onPostExecute(result);
     }
 
-    // TODO: Test this method
     void SetData(JSONObject new_jsonObject){
         jsonObject = new_jsonObject;
     }
