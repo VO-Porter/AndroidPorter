@@ -2,4 +2,9 @@
     <string name="app_name">AndroidPorter</string>
     <string name="spaceship">spaceship</string>
     <string name="jump">Jump</string>
+    <string name="_8890">8890</string>
+    <string name="connect">Connect</string>
+    <string name="port">Port:</string>
+    <string name="_192_168_0">192.168.0.</string>
+    <string name="ip_address">IP Address:</string>
 </resources>

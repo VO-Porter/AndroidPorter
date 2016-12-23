@@ -18,7 +18,7 @@
         android:id="@+id/jumpButton"
         android:text="@string/jump"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:background="@drawable/jump_button"
         android:textColor="@color/white"
@@ -28,8 +28,8 @@
     <ImageView
         android:src="@drawable/spaceship"
         android:id="@+id/spaceship"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:contentDescription="@string/spaceship" />
 
