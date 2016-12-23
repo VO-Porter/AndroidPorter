@@ -26,7 +26,7 @@ public class GyroActivity extends Activity {
     ImageView spaceship;
     Button jump;
 
-    enum JumpState { INACTIVE, UP, DOWN, COOL};
+    enum JumpState { INACTIVE, UP, DOWN};
     JumpState jumpState = JumpState.INACTIVE;
     AnimationListener jumpListener;
 
@@ -54,7 +54,7 @@ public class GyroActivity extends Activity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                setState(JumpState.INACTIVE);
+                jumpState = JumpState.INACTIVE;
             }
 
             @Override
@@ -116,9 +116,5 @@ public class GyroActivity extends Activity {
                 udp.sendX(x);
         }
     };
-
-    public void setState(JumpState state) {
-        this.jumpState=state;
-    }
 
 }
