@@ -7,16 +7,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.view.animation.Animation.AnimationListener;
-
-import static android.content.ContentValues.TAG;
-
 
 public class GyroActivity extends Activity {
 
@@ -163,7 +159,7 @@ public class GyroActivity extends Activity {
                     udp.sendX(350);
                     spaceship.setX(rightPosition.getX());
                 } else {
-                    float pos = ((roll+350)/700.0f)*(rightPosition.getX() - leftPosition.getX());
+                    float pos = ((roll+370)/700.0f)*(rightPosition.getX() - leftPosition.getX());
                     spaceship.setX(pos);
                     udp.sendX(roll);
                 }
