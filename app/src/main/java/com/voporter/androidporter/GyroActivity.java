@@ -106,9 +106,9 @@ public class GyroActivity extends Activity {
         Sensor gsensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         Sensor asensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         Sensor msensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        sensorManager.registerListener(gyroListener, gsensor, SensorManager.SENSOR_DELAY_FASTEST);
-        sensorManager.registerListener(gyroListener, asensor, SensorManager.SENSOR_DELAY_FASTEST);
-        sensorManager.registerListener(gyroListener, msensor, SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(gyroListener, gsensor, SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(gyroListener, asensor, SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(gyroListener, msensor, SensorManager.SENSOR_DELAY_GAME);
     }
 
     @Override
