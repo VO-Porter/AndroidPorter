@@ -7,12 +7,15 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.view.animation.Animation.AnimationListener;
+
+import static android.content.ContentValues.TAG;
 
 
 public class GyroActivity extends Activity {
@@ -29,6 +32,16 @@ public class GyroActivity extends Activity {
 
     JumpState jumpState = JumpState.INACTIVE;
     AnimationListener jumpListener;
+
+    float[] gData = new float[3];           // Gravity or accelerometer
+    float[] mData = new float[3];           // Magnetometer
+    float[] orientation = new float[3];
+    float[] Rmat = new float[9];
+    float[] R2 = new float[9];
+    float[] Imat = new float[9];
+    boolean haveGrav = false;
+    boolean haveAccel = false;
+    boolean haveMag = false;
 
 
     @Override
@@ -94,8 +107,12 @@ public class GyroActivity extends Activity {
 
     public void onResume() {
         super.onResume();
-        sensorManager.registerListener(gyroListener, sensor,
-                SensorManager.SENSOR_DELAY_NORMAL);
+        Sensor gsensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        Sensor asensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        Sensor msensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        sensorManager.registerListener(gyroListener, gsensor, SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(gyroListener, asensor, SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(gyroListener, msensor, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     @Override
@@ -108,19 +125,52 @@ public class GyroActivity extends Activity {
         public void onAccuracyChanged(Sensor sensor, int acc) { }
 
         public void onSensorChanged(SensorEvent event) {
-            int x = (int)(event.values[0]*1000);
-            if (x < - 350) {
-                udp.sendX(-350);
-                spaceship.setX(leftPosition.getX());
-            } else if (x > 350) {
-                udp.sendX(350);
-                spaceship.setX(rightPosition.getX());
-            } else {
-                float pos = ((x+350)/700.0f)*(rightPosition.getX() - leftPosition.getX());
-                spaceship.setX(pos);
-                udp.sendX(x);
+
+            switch( event.sensor.getType() ) {
+              case Sensor.TYPE_GRAVITY:
+                gData[0] = event.values[0];
+                gData[1] = event.values[1];
+                gData[2] = event.values[2];
+                haveGrav = true;
+                break;
+              case Sensor.TYPE_ACCELEROMETER:
+                if (haveGrav) break;
+                gData[0] = event.values[0];
+                gData[1] = event.values[1];
+                gData[2] = event.values[2];
+                haveAccel = true;
+                break;
+              case Sensor.TYPE_MAGNETIC_FIELD:
+                mData[0] = event.values[0];
+                mData[1] = event.values[1];
+                mData[2] = event.values[2];
+                haveMag = true;
+                break;
+              default:
+                return;
             }
-        }
+
+            if ((haveGrav || haveAccel) && haveMag) {
+                SensorManager.getRotationMatrix(Rmat, Imat, gData, mData);
+                SensorManager.remapCoordinateSystem(Rmat, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X, R2);
+                SensorManager.getOrientation(R2, orientation);
+
+                int roll = (int)(orientation[2]*500);
+                if (roll < - 350) {
+                    udp.sendX(-350);
+                    spaceship.setX(leftPosition.getX());
+                } else if (roll > 350) {
+                    udp.sendX(350);
+                    spaceship.setX(rightPosition.getX());
+                } else {
+                    float pos = ((roll+350)/700.0f)*(rightPosition.getX() - leftPosition.getX());
+                    spaceship.setX(pos);
+                    udp.sendX(roll);
+                }
+
+            }
+      }
+
     };
 
 }
